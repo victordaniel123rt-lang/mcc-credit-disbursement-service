@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcc-credit-disbursement-service
+  namespace: stech
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcc-credit-disbursement-service
+  template:
+    metadata:
+      labels:
+        app: mcc-credit-disbursement-service
+    spec:
+      containers:
+        - name: mcc-credit-disbursement-service
+          image: victor146/mcc-credit-disbursement:1.0
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcc-credit-disbursement-service
+  namespace: stech
+spec:
+  selector:
+    app: mcc-credit-disbursement-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

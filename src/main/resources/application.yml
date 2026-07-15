@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: mcc-credit-disbursement-service
+  datasource:
+    url: jdbc:mariadb://localhost:3306/i_credit_disbursement?useSSL=false&serverTimezone=UTC
+    username: root
+    password: '1469370'
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+server:
+  port: 9092
+feign:
+  clients:
+    account:
+      name: mcc-account-service
+      url: http://localhost:9091/accounts
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+
+azure:
+  servicebus:
+    connection-string: ${SERVICE_BUS_CONNECTION_STRING}
+    queue-name: credit-disbursement-queue
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
